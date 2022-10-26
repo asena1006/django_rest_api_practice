@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+
     'instagram',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +128,23 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.JSONWebTokenAuthentication',
+    ],
+
+    'PAGE_SIZE' : 3,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PERMISSION_CLASSES' : [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAUL_THROTTLE_CLASSES': [
+        'rest_framework.throttling.UserRateThorottle',
+    ],
+    'DEFAULT_THROTTLE_RATES' : {
+        'user': '3/day'
+    }
+}
